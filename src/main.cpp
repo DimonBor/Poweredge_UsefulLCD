@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
                     for (int i = 0; i < mainThermometer.getNumberOfCPUs(); i++) {
                         mainLCD.writeToLCD(
                             "CPU" + std::to_string(temps[i].getID()) + 
-                            " t: " + std::to_string(temps[i].getTemp()) + " °C"
+                            " t: " + std::to_string(temps[i].getTemp()) + "C"
                         );
                         if (i != mainThermometer.getNumberOfCPUs()-1) sleep(1);
                     }
