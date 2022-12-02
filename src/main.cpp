@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
     std::string sequence = "";
 
     std::signal(SIGTERM, exiting);
+    std::signal(SIGABRT, exiting);
 
     for (int i = 0; i < argc; i ++) { // Parsing command line args 
         if (!strcmp(argv[i], "-h")) {
