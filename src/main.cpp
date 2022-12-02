@@ -37,8 +37,8 @@ int main(int argc, char* argv[]) {
     std::vector<CPUtemp> temps;
     std::string sequence = "";
 
-    std::signal(SIGTERM, exiting);
-    std::signal(SIGABRT, exiting);
+    signal(SIGTERM, exiting);
+    signal(SIGABRT, exiting);
 
     for (int i = 0; i < argc; i ++) { // Parsing command line args 
         if (!strcmp(argv[i], "-h")) {
@@ -114,6 +114,8 @@ void exiting(int signum) { // Write Hostname to LCD on Exit
     else {
         std::getline(inputFile, output);
     }
-    output = output.substr(0, 14);
+    inputFile.close();
+    output = output.substr(0, 13);
     exitingLCD.writeToLCD(output);
+    exit(signum);
 }
