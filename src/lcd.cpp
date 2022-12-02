@@ -11,7 +11,7 @@ class LCD { // Class for interaction with LCD
                 exit(0);
             }
 
-            for (int i = 0; i < charToWrite.size()-1; i++) {
+            for (int i = 0; i < (charToWrite.size()-1); i++) {
                 std::stringstream ss;
                 ss << std::hex << int(charToWrite[i]);
                 charRawValues += " 0x" + ss.str();
