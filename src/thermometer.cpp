@@ -1,17 +1,14 @@
-#include <string>
-#include <vector>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-
 // Class for defining temperature of each CPU
 class CPUtemp {
-    public:
+    private:
         int CPUid;
         float temp;
+    public:
         CPUtemp(int newCPUid, int newTemp) {
             this->CPUid = newCPUid; this->temp = (float)newTemp/1000;
         }
+        int getID() { return this->CPUid; }
+        float getTemp() { return this->temp; }
 };
 
 // Global Thermometer
