@@ -7,6 +7,7 @@
 #include <numeric>
 #include <cstring>
 #include <cstdlib>
+#include <csignal>
 
 #define TIME_TO_SLEEP 2
 
@@ -23,7 +24,7 @@ t - Temps for each CPU
 
 // Prototypes 
 void usage();
-void exiting();
+void exiting(int);
 std::string toString(float);
 
 
@@ -36,7 +37,7 @@ int main(int argc, char* argv[]) {
     std::vector<CPUtemp> temps;
     std::string sequence = "";
 
-    std::atexit(exiting);
+    std::signal(SIGTERM, exiting);
 
     for (int i = 0; i < argc; i ++) { // Parsing command line args 
         if (!strcmp(argv[i], "-h")) {
@@ -100,7 +101,7 @@ void usage(){ // -h command
         << std::endl;
 }
 
-void exiting() { // Write Hostname to LCD on Exit 
+void exiting(int signum) { // Write Hostname to LCD on Exit 
     LCD exitingLCD;
     std::string output;
     std::ifstream inputFile;
@@ -112,6 +113,6 @@ void exiting() { // Write Hostname to LCD on Exit
     else {
         std::getline(inputFile, output);
     }
-
+    output = output.substr(0, 14);
     exitingLCD.writeToLCD(output);
 }
