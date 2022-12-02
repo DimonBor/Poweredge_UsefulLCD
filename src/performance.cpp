@@ -1,3 +1,10 @@
+float round(float var) {
+    char str[10];
+    sprintf(str, "%.2f", var);
+    sscanf(str, "%f", &var);
+    return var;
+}
+
 class PerformanceMetrics {
     private:
         float idleTime = 0, totalTime = 0;
@@ -18,6 +25,45 @@ class PerformanceMetrics {
             return output;
         }
 
+        float * getMemInfo (){ // Returns float[2] with 2 values for avail memory and total memory
+            std::string memTotalStr, memAvailStr, memFreeStr, tempString;
+            static float output [2];
+
+            std::ifstream inputFile;
+            inputFile.open("/proc/meminfo", std::ios::in);
+            if (!inputFile.is_open()) {
+                std::cout << "Error reading /proc/meminfo!!!" << std::endl;
+                exit(0);
+            }
+            std::getline(inputFile, memTotalStr);
+            std::getline(inputFile, memFreeStr);
+            std::getline(inputFile, memAvailStr);
+
+            inputFile.close();
+
+            std::istringstream memTotalStream(memTotalStr);
+            std::vector<std::string> memTotalArray;
+            while (getline(memTotalStream, tempString, ' ')) { // parsing Total Memory line 
+                if (tempString == "") continue;
+                memTotalArray.push_back(tempString);
+            }
+
+            std::istringstream memAvailStream(memAvailStr);
+            std::vector<std::string> memAvailArray;
+            while (getline(memAvailStream, tempString, ' ')) { // parsing Available Memory line 
+                if (tempString == "") continue;
+                memAvailArray.push_back(tempString);
+            }
+
+            float availMemKBytes = std::stoi(memAvailArray[1]);
+            float totalMemKBytes = std::stoi(memTotalArray[1]);
+
+            output[0] = round((totalMemKBytes - availMemKBytes)/1048576);
+            output[1] = round(totalMemKBytes/1048576); 
+
+            return output;
+        }
+
         float getCPUpercentage() { // Returns CPU utilization in percents 
             // Parsing first line of /proc/stat
             std::string procStat = getProcStat(), tempString;
@@ -35,6 +81,6 @@ class PerformanceMetrics {
             this->idleTime = newIdleTime;
             this->totalTime = newTotalTime;
 
-            return utilization;
+            return round(utilization);
         }
 };
