@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
                             "CPU" + std::to_string(temps[i].getID()) + 
                             " t: " + std::to_string(temps[i].getTemp()) + "C"
                         );
-                        if (i != mainThermometer.getNumberOfCPUs()-1) sleep(1);
+                        if (i != mainThermometer.getNumberOfCPUs()-1) sleep(TIME_TO_SLEEP);
                     }
                     break;
                 default:
