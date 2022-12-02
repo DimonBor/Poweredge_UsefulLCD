@@ -115,7 +115,7 @@ void exiting(int signum) { // Write Hostname to LCD on Exit
         std::getline(inputFile, output);
     }
     inputFile.close();
-    output = output.substr(0, 14);
+    output = output.substr(0, 13);
     exitingLCD.writeToLCD(output);
     exit(signum);
 }
