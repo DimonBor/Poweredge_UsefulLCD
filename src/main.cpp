@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <numeric>
 #include <cstring>
+#include <cstdlib>
 
 #define TIME_TO_SLEEP 1
 
@@ -23,12 +24,13 @@ t - Temps for each CPU
 void usage();
 std::string toString(float);
 
+
 int main(int argc, char* argv[]) {
     Thermometer mainThermometer;
     PerformanceMetrics mainMetrics;
     LCD mainLCD;
 
-    float* memInfo;
+    int* memInfo;
     std::vector<CPUtemp> temps;
     std::string sequence = "";
 
@@ -50,20 +52,20 @@ int main(int argc, char* argv[]) {
                 case 'm':
                     memInfo = mainMetrics.getMemInfo();
                     mainLCD.writeToLCD(
-                        "RAM: " + toString(memInfo[0]) + "/" + toString(memInfo[1]) + " GB"
+                        "RAM: " + std::to_string(memInfo[0]) + "/" + std::to_string(memInfo[1]) + "G"
                     );
                     break;
                 case 'c':
                     mainLCD.writeToLCD(
-                        "CPU: " + toString(mainMetrics.getCPUpercentage()) + "%"
+                        "CPU: " + std::to_string(mainMetrics.getCPUpercentage()) + "%"
                     );
                     break;
                 case 't':
                     temps = mainThermometer.getTemps();
                     for (int i = 0; i < mainThermometer.getNumberOfCPUs(); i++) {
                         mainLCD.writeToLCD(
-                            "CPU " + std::to_string(temps[i].getID()) + 
-                            " average temp: " + toString(temps[i].getTemp()) + " C"
+                            "CPU" + std::to_string(temps[i].getID()) + 
+                            " t: " + std::to_string(temps[i].getTemp()) + " C"
                         );
                         if (i != mainThermometer.getNumberOfCPUs()-1) sleep(1);
                     }
@@ -75,12 +77,6 @@ int main(int argc, char* argv[]) {
         }
     }
     return 0;
-}
-
-
-std::string toString(float value) {
-    std::string output = std::to_string(value);
-    return output.substr(0, output.size()-4);
 }
 
 

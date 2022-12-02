@@ -1,14 +1,13 @@
 // Class for defining temperature of each CPU
 class CPUtemp {
     private:
-        int CPUid;
-        float temp;
+        int CPUid, temp;
     public:
         CPUtemp(int newCPUid, int newTemp) {
-            this->CPUid = newCPUid; this->temp = round((float)newTemp/1000);
+            this->CPUid = newCPUid; this->temp = newTemp/1000;
         }
         int getID() { return this->CPUid; }
-        float getTemp() { return this->temp; }
+        int getTemp() { return this->temp; }
 };
 
 // Global Thermometer
