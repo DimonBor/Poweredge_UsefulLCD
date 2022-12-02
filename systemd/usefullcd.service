@@ -1,0 +1,10 @@
+[Unit]
+Description=Useful LCD service
+After=multi-user.target
+[Service]
+User=root
+Type=simple
+Restart=always
+ExecStart=/usr/local/bin/UsefulLCD
+[Install]
+WantedBy=multi-user.target
